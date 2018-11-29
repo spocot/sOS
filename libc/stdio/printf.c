@@ -62,7 +62,7 @@ int printf(const char* restrict format, ...)
             ++format;
             const char *str = va_arg(parameters, const char*);
             size_t slen = strlen(str);
-            if (maxrem < len) {
+            if (maxrem < slen) {
                 // TODO: Set errno to EOVERFLOW.
                 return -1;
             }
@@ -73,7 +73,7 @@ int printf(const char* restrict format, ...)
         } else {
             format = format_begun_at;
             size_t slen = strlen(format);
-            if (maxrem < len) {
+            if (maxrem < slen) {
                 // TODO: Set errno to EOVERFLOW.
                 return -1;
             }

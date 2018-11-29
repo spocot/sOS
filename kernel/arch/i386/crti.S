@@ -3,7 +3,7 @@
 .type _init, @function
 _init:
     push %ebp
-    movl %esp, ebp
+    movl %esp, %ebp
     /* gcc will put crtbegin.o's .init here */
 
 .section .fini
