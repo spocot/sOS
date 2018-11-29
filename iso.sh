@@ -12,4 +12,4 @@ menuentry "sos" {
     multiboot /boot/sos.kernel
 }
 EOF
-grub-mkresuce -o sos.iso isodir
+grub-mkrescue -o sos.iso isodir
