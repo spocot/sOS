@@ -34,6 +34,7 @@ call kernel_main
 
 # Hang if kernel_main returns unexpectedly.
 cli
-1:  hlt
-    jmp 1b
+hang:
+    hlt
+    jmp hang
 .size _start, . - _start
