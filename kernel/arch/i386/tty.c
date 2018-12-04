@@ -21,10 +21,11 @@ static uint16_t *terminal_buffer;
  */
 void terminal_clear(void)
 {
+    uint16_t c = vga_entry(' ', terminal_color);
     for (size_t y = 0; y < VGA_HEIGHT; y++) {
         for (size_t x = 0; x < VGA_WIDTH; x++) {
             const size_t index = y * VGA_WIDTH + x;
-            terminal_buffer[index] = vga_entry(' ', terminal_color);
+            terminal_buffer[index] = c;
         }
     }
 }
