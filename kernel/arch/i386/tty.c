@@ -78,7 +78,22 @@ void terminal_scroll(void)
                 VGA_WIDTH * sizeof(uint16_t)
               );
     }
-    memset(terminal_buffer + (VGA_HEIGHT * VGA_WIDTH), ' ', VGA_WIDTH);
+    memset(
+            terminal_buffer + (VGA_HEIGHT * VGA_WIDTH),
+            vga_entry(' ', terminal_color),
+            VGA_WIDTH * sizeof(uint16_t)
+          );
+}
+
+/**
+ * Scroll the terminal X lines.
+ */
+void terminal_scrollnum(size_t num_lines)
+{
+    size_t i;
+    for (i = 0; i < num_lines; i++) {
+        terminal_scroll();
+    }
 }
 
 void terminal_putchar(char c)
@@ -86,16 +101,20 @@ void terminal_putchar(char c)
     unsigned char uc = c;
     if (uc == '\n') {
         terminal_column = 0;
-        if (++terminal_row == VGA_HEIGHT) {
-            terminal_row = 0;
+        if (terminal_row == VGA_HEIGHT - 1) {
+            terminal_scroll();
+        } else {
+            ++terminal_row;
         }
         return;
     }
     terminal_putentryat(uc, terminal_color, terminal_column, terminal_row);
     if (++terminal_column == VGA_WIDTH) {
         terminal_column = 0;
-        if (++terminal_row == VGA_HEIGHT) {
-            terminal_row = 0;
+        if (terminal_row == VGA_HEIGHT - 1) {
+            terminal_scroll();
+        } else {
+            ++terminal_row;
         }
     }
 }

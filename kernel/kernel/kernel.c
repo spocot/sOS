@@ -7,9 +7,8 @@ void kernel_main(void)
     int i = 0;
     terminal_initialize();
     printf("Hello World!\n");
-    while (i < 10) {
+    while (i < 1000) {
         printf(">%d\n", i++);
     }
-    terminal_scroll();
     printf("test\n");
 }
