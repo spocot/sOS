@@ -4,7 +4,11 @@
 
 void kernel_main(void)
 {
+    int i = 0;
     terminal_initialize();
     printf("Hello World!\n");
-    printf("Line 2\n");
+    while (i < 10) {
+        printf(">%d\n", i++);
+    }
+    terminal_scroll();
 }

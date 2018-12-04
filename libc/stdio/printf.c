@@ -70,6 +70,44 @@ int printf(const char* restrict format, ...)
                 return -1;
             }
             written += slen;
+        } else if (*format == 'd') {
+            ++format;
+            /* int val = va_arg(parameters, int);
+            size_t i = val >=0 ? val : -val;
+            size_t digits;
+            for (digits = 0; i > 10; digits++) {
+                i = i / 10;
+            }
+            if (maxrem < digits) {
+                // TODO: Set errno to EOVERFLOW.
+                return -1;
+            }
+            char c = (char)(val+48);
+            if (!print(&c, sizeof(c))) {
+                return -1;
+            }
+            ++written; */
+            int val = va_arg(parameters, int);
+            int i = val;
+            size_t digits;
+            for (digits = 1; i >= 10; digits++) {
+                i = i / 10;
+            }
+            if (maxrem < digits) {
+                // TODO: Set errno to EOVERFLOW.
+                return -1;
+            }
+            char s[digits];
+            int count;
+            i = val;
+            for (count = digits - 1; count >= 0; count--) {
+                s[count] = (char)((i % 10) + 48);
+                i /= 10;
+            }
+            if (!print(s, digits)) {
+                return -1;
+            }
+            written += digits;
         } else {
             format = format_begun_at;
             size_t slen = strlen(format);
