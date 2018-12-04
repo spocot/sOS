@@ -16,12 +16,11 @@ static size_t terminal_column;
 static uint8_t terminal_color;
 static uint16_t *terminal_buffer;
 
-void terminal_initialize(void)
+/**
+ * Clear the terminal by filling it with spaces.
+ */
+void terminal_clear(void)
 {
-    terminal_row = 0;
-    terminal_column = 0;
-    terminal_color = vga_entry_color(VGA_COLOR_LIGHT_GREY, VGA_COLOR_BLACK);
-    terminal_buffer = VGA_MEMORY;
     for (size_t y = 0; y < VGA_HEIGHT; y++) {
         for (size_t x = 0; x < VGA_WIDTH; x++) {
             const size_t index = y * VGA_WIDTH + x;
@@ -30,6 +29,30 @@ void terminal_initialize(void)
     }
 }
 
+/**
+ * Initialize the terminal with the default colors and clear it out.
+ */
+void terminal_initialize(void)
+{
+    terminal_row = 0;
+    terminal_column = 0;
+    terminal_color = vga_entry_color(VGA_COLOR_LIGHT_GREY, VGA_COLOR_BLACK);
+    terminal_buffer = VGA_MEMORY;
+    terminal_clear();
+}
+
+/**
+ * Return the current color at the given terminal spot.
+ */
+uint8_t terminal_colorat(size_t x, size_t y)
+{
+    const size_t index = y * VGA_WIDTH + x;
+    return (uint8_t)(terminal_buffer[index] >> 8);
+}
+
+/**
+ * Change the current terminal color.
+ */
 void terminal_setcolor(uint8_t color)
 {
     terminal_color = color;
@@ -60,6 +83,9 @@ void terminal_putchar(char c)
     }
 }
 
+/**
+ * Write <size> chars from <data> to the terminal.
+ */
 void terminal_write(const char *data, size_t size)
 {
     for (size_t i = 0; i < size; i++) {
@@ -67,7 +93,17 @@ void terminal_write(const char *data, size_t size)
     }
 }
 
+/**
+ * Write the string <data> to the terminal.
+ */
 void terminal_writestring(const char *data)
 {
     terminal_write(data, strlen(data));
+}
+
+void terminal_change_colorat(uint8_t color, size_t x, size_t y)
+{
+    const size_t index = y * VGA_WIDTH + x;
+    unsigned char uc = terminal_buffer[index] & ((1 << 8) - 1);
+    terminal_buffer[index] = vga_entry(uc, color);
 }
