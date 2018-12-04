@@ -102,6 +102,9 @@ void terminal_writestring(const char *data)
     terminal_write(data, strlen(data));
 }
 
+/**
+ * Change the color of the character at the specified position.
+ */
 void terminal_change_colorat(uint8_t color, size_t x, size_t y)
 {
     const size_t index = y * VGA_WIDTH + x;
