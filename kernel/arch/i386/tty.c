@@ -70,15 +70,15 @@ void terminal_putentryat(unsigned char c, uint8_t color, size_t x, size_t y)
  */
 void terminal_scroll(void)
 {
-    int i;
+    size_t i;
     for (i = 0; i < VGA_HEIGHT - 1; i++) {
         memcpy(
-                terminal_buffer[i * VGA_WIDTH],
-                terminal_buffer[i * (VGA_WIDTH + 1)],
-                VGA_WIDTH
+                terminal_buffer + (i * VGA_WIDTH),
+                terminal_buffer + ((i + 1) * VGA_WIDTH),
+                VGA_WIDTH * sizeof(uint16_t)
               );
     }
-    memset(terminal_buffer[VGA_HEIGHT * VGA_WIDTH], ' ', VGA_WIDTH);
+    memset(terminal_buffer + (VGA_HEIGHT * VGA_WIDTH), ' ', VGA_WIDTH);
 }
 
 void terminal_putchar(char c)

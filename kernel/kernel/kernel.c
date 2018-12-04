@@ -11,4 +11,5 @@ void kernel_main(void)
         printf(">%d\n", i++);
     }
     terminal_scroll();
+    printf("test\n");
 }
