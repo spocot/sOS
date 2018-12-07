@@ -78,11 +78,11 @@ void terminal_scroll(void)
                 VGA_WIDTH * sizeof(uint16_t)
               );
     }
-    memset(
-            terminal_buffer + (VGA_HEIGHT * VGA_WIDTH),
-            vga_entry(' ', terminal_color),
-            VGA_WIDTH * sizeof(uint16_t)
-          );
+    uint16_t empty_entry = vga_entry(' ', terminal_color);
+    for (i = 0; i < VGA_WIDTH; i++) {
+        const size_t index = ((VGA_HEIGHT - 1) * VGA_WIDTH) + i;
+        terminal_buffer[index] = empty_entry;
+    }
 }
 
 /**
