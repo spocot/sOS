@@ -11,7 +11,13 @@ static uint16_t* const VGA_MEMORY = (uint16_t*) 0xB8000;
 
 static size_t terminal_row;
 static size_t terminal_column;
+
+// Used to track terminal colors
 static uint8_t terminal_color;
+static enum vga_color terminal_bg_color;
+static enum vga_color terminal_fg_color;
+
+// Stored buffer of the terminal, currently we scroll down but dont save old lines.
 static uint16_t *terminal_buffer;
 
 /**
@@ -52,9 +58,23 @@ uint8_t terminal_colorat(size_t x, size_t y)
 /**
  * Change the current terminal color.
  */
-void terminal_setcolor(uint8_t color)
+void terminal_setcolor(enum vga_color fg, enum vga_color bg)
 {
-    terminal_color = color;
+    terminal_fg_color = fg;
+    terminal_bg_color = bg;
+    terminal_color = vga_entry_color(fg,bg);
+}
+
+void terminal_setfg(enum vga_color fg)
+{
+    terminal_fg_color = fg;
+    terminal_color = vga_entry_color(fg, terminal_bg_color);
+}
+
+void terminal_setbg(enum vga_color bg)
+{
+    terminal_bg_color = bg;
+    terminal_color = vga_entry_color(terminal_fg_color, bg);
 }
 
 void terminal_putentryat(unsigned char c, uint8_t color, size_t x, size_t y)

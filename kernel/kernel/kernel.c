@@ -2,14 +2,39 @@
 
 #include <kernel/tty.h>
 
+static void prompt(void)
+{
+    printf(">");
+}
+
+static char *input(void)
+{
+
+}
+
+int shell_run(void)
+{
+    while (1) {
+        char *cmd;
+        int proc;
+
+        prompt();
+        cmd = input();
+        proc = process_start(cmd);
+        free(cmd);
+
+        while (pr
+
+    return 0;
+}
+
 void kernel_main(void)
 {
-    int i = 0;
+    int shell_return = 0;
     terminal_initialize();
-    printf("Hello World!\n");
-    while (i < 1000) {
-        printf(">%d\n", i++);
-    }
-    terminal_setcolor(vga_entry_color(VGA_COLOR_GREEN, VGA_COLOR_BLACK));
-    printf("test\n");
+    terminal_setfg(VGA_COLOR_CYAN);
+    printf("Initializing Shell\n");
+    terminal_setfg(VGA_COLOR_LIGHT_GREY);
+    shell_return = shell_run();
+    printf("shell returned %d\nRestarting\n");
 }
