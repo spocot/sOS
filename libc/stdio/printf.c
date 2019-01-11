@@ -72,21 +72,6 @@ int printf(const char* restrict format, ...)
             written += slen;
         } else if (*format == 'd') {
             ++format;
-            /* int val = va_arg(parameters, int);
-            size_t i = val >=0 ? val : -val;
-            size_t digits;
-            for (digits = 0; i > 10; digits++) {
-                i = i / 10;
-            }
-            if (maxrem < digits) {
-                // TODO: Set errno to EOVERFLOW.
-                return -1;
-            }
-            char c = (char)(val+48);
-            if (!print(&c, sizeof(c))) {
-                return -1;
-            }
-            ++written; */
             int val = va_arg(parameters, int);
             int i = val;
             size_t digits;
