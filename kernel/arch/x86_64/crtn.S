@@ -1,9 +1,9 @@
 .section .init
     /* gcc will put crtend.o's .init here */
-    popl %ebp
+    popq %rbp
     ret
 
 .section .fini
     /* gcc will put crtend.o's .init here */
-    popl %ebp
+    popq %rbp
     ret

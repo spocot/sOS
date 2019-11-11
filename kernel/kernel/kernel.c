@@ -7,34 +7,35 @@ static void prompt(void)
     printf(">");
 }
 
-static char *input(void)
+/*static char *input(void)
 {
 
-}
+}*/
 
 int shell_run(void)
 {
     while (1) {
-        char *cmd;
-        int proc;
+        /*char *cmd;*/
+        /*int proc;*/
 
         prompt();
-        cmd = input();
-        proc = process_start(cmd);
-        free(cmd);
+        //cmd = input();
+        //proc = process_start(cmd);
+        //free(cmd);
 
-        while (pr
+        break;
+    }
 
     return 0;
 }
 
 void kernel_main(void)
 {
-    int shell_return = 0;
+    /*int shell_return = 0;*/
     terminal_initialize();
     terminal_setfg(VGA_COLOR_CYAN);
     printf("Initializing Shell\n");
     terminal_setfg(VGA_COLOR_LIGHT_GREY);
-    shell_return = shell_run();
+    shell_run();
     printf("shell returned %d\nRestarting\n");
 }
